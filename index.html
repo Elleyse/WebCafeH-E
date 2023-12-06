@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color:rgb(170, 230, 210);
+        }
+    </style>
 </head>
 <body>
 <h1>
-    WEB CAFE
+    c[_] *WEB CAFE* c[_]
 </h1>
 
-<label for="dropdown">Select an option</label>
-<select id="dropdown">
-    <option value="option1">espresso</option>
+<label for="dropdown">What drink do you want to make?</label>
+<select id="dropdown" onchange="updateBox()">
+    <!-- <option value="option1">espresso</option>
     <option value="option1">americano</option>
     <option value="option1">cappuccino</option>
     <option value="option1">macchiato</option>
@@ -21,24 +26,45 @@
     <option value="option1">flat white</option>
     <option value="option1">mocha</option>
     <option value="option1">cortado</option>
-    <option value="option1">affogato</option>
+    <option value="option1">affogato</option> -->
 </select>
 
-<div id="menuRecipeBox" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+<div id="menuRecipeBox" style="border: 1px solid blue; padding: 10px; margin-top: 10px;">
     RECIPE should show up here
 </div>
 
 <script>
-    function updateBox(){
+    async function fetchMenu(){
+        try {
+            const response = await fetch('https://web-cafe.onrender.com/api/menu');
+            const data = await response.json();
+
+            const dropdown = document.getElementById('dropdown');
+            data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.drinkName;
+                option.textContent = item.drinkName;
+                dropdown.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching menu:', error);
+        }
+    }
+    async function updateBox(){
         const dropdown = document.getElementById('dropdown');
-        const selectedOption = dropdown.options[dropdown.selectedIndex].text;
+        const selectedDrinkName = dropdown.options[dropdown.selectedIndex].text;
+
+        try {
+            const response = await fetch('https://web-cafe.onrender.com/api/menu/${selectedDrinkName}');
+            const drinkData = await response.json();
+
+            const menuRecipeBox = document.getElementById('menuRecipeBox');
+            menuRecipeBox.textContent = 'Recipe for ${selectedDrinkName}:\n${drinkData.recipe}';
+        } catch (error) {
+            console.error('Error fetching recipe:', error);
+        }
 
         //want this next part to show the recipe on the box when you chose a drink
-        const selectedDataBox = document.getElementById('selectedDataBox');
-        selectedDataBox.textContent = 'Selected Option: ${selectedOption}';
-        
-
-
     }
 </script>
 
