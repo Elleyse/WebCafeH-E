@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+<h1>
+    WEB CAFE
+</h1>
+
+<label for="dropdown">Select an option</label>
+<select id="dropdown">
+    <option value="option1">espresso</option>
+    <option value="option1">americano</option>
+    <option value="option1">cappuccino</option>
+    <option value="option1">macchiato</option>
+    <option value="option1">latte</option>
+    <option value="option1">flat white</option>
+    <option value="option1">mocha</option>
+    <option value="option1">cortado</option>
+    <option value="option1">affogato</option>
+</select>
+
+<div id="menuRecipeBox" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+    RECIPE should show up here
+</div>
+
+<script>
+    function updateBox(){
+        const dropdown = document.getElementById('dropdown');
+        const selectedOption = dropdown.options[dropdown.selectedIndex].text;
+
+        //want this next part to show the recipe on the box when you chose a drink
+        const selectedDataBox = document.getElementById('selectedDataBox');
+        selectedDataBox.textContent = 'Selected Option: ${selectedOption}';
+        
+
+
+    }
+</script>
+
+
+</body>
+</html>
+
+<!-- menu options:
+1. espresso
+2. americano
+3. cappuccino
+4. macchiato
+5. latte
+6. flat white
+7. mocha
+8. cortado
+9. affogato
+ -->
